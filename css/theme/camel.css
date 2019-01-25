@@ -362,3 +362,7 @@ div .conf-banner {
 
 div .conf-banner img {
   z-index: 1000; }
+
+@media print {
+  body {
+    background: #fff; } }
