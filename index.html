@@ -4,13 +4,15 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <title>reveal.js</title>
+        <title>Quarkus - Supersoning Subatomic Java</title>
 
         <link rel="stylesheet" href="css/reveal.css">
         <link rel="stylesheet" href="css/theme/quarkus.css">
+        <link rel="shortcut icon" type="image/png" href="/favicon.ico" >
 
         <!-- Theme used for syntax highlighting of code -->
-        <link rel="stylesheet" href="lib/css/zenburn.css">
+        <link rel="stylesheet" href="css/theme/quarkus-highlight.css">
+        <!-- <link rel="stylesheet" href="lib/css/zenburn.css"> -->
 
         <!-- Printing and PDF exports -->
         <script>
@@ -24,7 +26,7 @@
     <body>
         <div class="reveal">
             <div class="footer" style="display: none;">
-                <!-- <img src="images/camel.svg" class="left"> --><a href="https://twitter.com/ppalaga">@ppalaga</a><!-- <img src="images/kube_logo_black_with_text.svg" class="right"> -->
+                <a href="https://quarkus.io/" class="left" target="_blank">quarkus.io</a> <a href="https://twitter.com/ppalaga">@ppalaga</a> <img src="images/voxxed-days-bu-black.png" class="right">
             </div>
             <div class="slides">
                 <section>
@@ -38,16 +40,358 @@
                         </p>
                     </section>
                     <section>
-                        <h2>Agenda</h2>
+                        <h2>Peter Palaga</h2>
                         <ul>
-                            <li>Item 1</li>
-                            <li>Item 2
+                            <li class="fragment">Senior engineer at Red Hat Middleware
                                 <ul>
-                                    <li>Item 2.1</li>
-                                    <li>Item 2.2</li>
+                                    <li>Red Hat Fuse on EAP (WildFly Camel)</li>
+                                    <li>JBoss EAP (WildFly)</li>
                                 </ul>
                             </li>
-                    </ul>
+                            <li class="fragment">Author of
+                                <ul>
+                                    <li><a
+                                        href="https://github.com/srcdeps/srcdeps">srcdeps</a>
+                                        - source dependencies for Maven and Gradle</li>
+                                    <li><a
+                                        href="https://github.com/ec4j/editorconfig-maven-plugin">Maven</a>
+                                        and <a
+                                        href="https://github.com/ec4j/editorconfig-gradle-plugin">Gradle</a>
+                                        plugins for <code>.editorconfig</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Agenda</h2>
+                        <ul>
+                            <li>A 5 ms demo</li>
+                            <li>What is Quarkus</li>
+                            <li>How does it work</li>
+                            <li>Interesting features</li>
+                            <li>Known issues and limitations</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <h2>Demo</h2>
+                </section>
+                <section>
+                    <section>
+                        <h2>What is Quarkus</h2>
+                    </section>
+                    <section>
+                        <h2>Quarkus</h2>
+                        <p><a href="https://en.wikipedia.org/wiki/Quark">=</a></p>
+                        <p><a href="https://en.wikipedia.org/wiki/Quark">Quark</a> - an elementary particle</p>
+                        <p><a href="https://en.wikipedia.org/wiki/Quark">+</a></p>
+                        <p><a href="https://en.wikipedia.org/wiki/Quark">us</a> - the hardest problem in software</p>
+                    </section>
+                    <section>
+                        <h2>Framework</h2>
+                        and
+                        <h2>toolkit</h2>
+                        for writing Java applications
+                    </section>
+                    <section>
+                        <h2>Container First</h2>
+                        <table id="container-first" class="plaintable">
+                            <tr class="fragment">
+                                <td><a>💾</a></td>
+                                <td>Small size on disk</td>
+                                <td><a>✓</a></td>
+                                <td>Small&nbsp;container&nbsp;images</td>
+                            </tr>
+                            <tr class="fragment">
+                                <td><a>🚀</a></td>
+                                <td>Fast boot time</td>
+                                <td><a>✓</a></td>
+                                <td>Instant scale up</td>
+                            </tr>
+                            <tr class="fragment">
+                                 <td><a>🔬</a></td>
+                                <td>Low&nbsp;RSS<sup>1</sup>&nbsp;memory
+                                    <br><br>
+                                    <small><sup>1)</sup> Resident Set Size</small>
+                                </td>
+                                <td><a>✓</a></td>
+                                <td>More containers with the same RAM</td>
+                            </tr>
+                        </table>
+                    </section>
+                    <section data-background-image="images/perf-show.jpg">
+                    </section>
+                    <section>
+                        <h2>Memory (RSS)</h2>
+                        <table id="rss" class="plaintable">
+                            <tr>
+                                <td></td>
+                                <td>Quarkus + GraalVM</td>
+                                <td>Quarkus + OpenJDK</td>
+                                <td>Traditional Cloud-Native Stack</td>
+                            </tr>
+                            <tr>
+                                <td>REST</td>
+                                <td style="background-image: url(images/rest-graal.png);">13 MB</td>
+                                <td style="background-image: url(images/rest-jdk.png);">74 MB</td>
+                                <td style="background-image: url(images/rest-traditional.png);">140 MB</td>
+                            </tr>
+                            <tr>
+                                <td>REST+JPA</td>
+                                <td style="background-image: url(images/rest-jpa-graal.png);">35 MB</td>
+                                <td style="background-image: url(images/rest-jpa-jdk.png);">130 MB</td>
+                                <td style="background-image: url(images/rest-jpa-traditional.png);">218 MB</td>
+                            </tr>
+                        </table>
+                    </section>
+                    <section data-background-image="images/perf-how.jpg">
+                    </section>
+                    <section>
+                        <h2>Measuring memory</h2>
+                        <a href="https://en.wikipedia.org/wiki/Resident_set_size">RSS</a> = all RAM consumed by the process
+
+                        <pre style=""><code class="hljs shell">$ ps -o pid,rss,command -p $(pgrep .*runner)
+  PID   RSS COMMAND
+11229 12628 ./target/getting-started-1.0-SNAPSHOT-runner</code></pre>
+                    </section>
+                    <section data-background-image="images/perf-boot-time.jpg">
+                    </section>
+                    <section>
+                        <h2>Startup time</h2>
+                        <p class="fragment">Do not get fooled by lazy initilization</p>
+                        <p class="fragment"><strong>Time to first request</strong> matters</p>
+                    </section>
+                    <section>
+                        <h2>Time to first request<small><sup style="color: #fff">1/2</sup></small></h2>
+<pre style="width: 100%; margin: 0px;"><code class="hljs java">@Path("/")
+public class GreetingEndpoint {
+    @GET @Path("/greeting")
+    public String greeting(@QueryParam("name") String name) {
+        System.out.println(System.currentTimeMillis());
+        return "Hello " + name;
+    }
+    void onStart(@Observes StartupEvent startup) {
+        System.out.println(System.currentTimeMillis());
+    }
+}</code></pre>
+                    </section>
+                    <section>
+                        <h2>Time to first request<small><sup style="color: #fff">2/2</sup></small></h2>
+                        <pre class="fragment" style="width: 100%; overflow: hidden; margin-top: -20px"><code class="hljs shell" style="overflow: hidden;">$ while [[ \
+    "$(curl -s -o /dev/null -w '%{http_code}' localhost:8080/greeting)" \
+       != "200" \
+  ]]; do sleep .00001; done</code></pre>
+                        <pre class="fragment"  style="width: 100%; overflow: hidden;"><code class="hljs shell" style="overflow: hidden;">$ echo $(($(date +%s%N)/1000000)) && target/*-runner
+1552931436155
+1552931436626
+2019-03-06 16:17:01,626 INFO  [io.quarkus] (main) Quarkus 0.11.0 started in 0.035s. Listening on: http://127.0.0.1:8080
+2019-03-06 16:17:01,626 INFO  [io.quarkus] (main) Installed features: [cdi, resteasy, resteasy-jsonb]
+1552931436637
+</code></pre>
+                        <pre class="fragment" style="width: 100%; overflow: hidden;"><code class="hljs shell" style="overflow: hidden;">$ expr 1552931436637 - 1552931436155
+482
+</code></pre>
+                    </section>
+                    <section data-background-image="images/boot-time.jpg">
+                    </section>
+                    <section>
+                        <h2>Boot time</h2>
+                    </section>
+                    <!-- <section>
+                        <h2>Cloud Native</h2>
+                        Embraces <a href="https://12factor.net/">12 factor</a> architecture in environments like Kubernetes
+                    </section> -->
+                    <section>
+                        <table class="plaintable">
+                            <tr>
+                                <td></td>
+                                <td colspan="3">Unifies</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><h2>Imperative</h2></td>
+                                <td></td>
+                                <td style="text-align: center; padding-top: 0.45em">and</td>
+                                <td></td>
+                                <td><h2>Reactive&nbsp;&nbsp;&nbsp;&nbsp;</h2></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><pre style="width: 100%; margin: 0px;"><code class="hljs java">@Inject
+SayService say;
+
+@GET
+@Produces(MediaType.TEXT_PLAIN)
+public String hello() {
+    return say.hello();
+}</code></pre></td>
+                                <td></td>
+                                <td colspan="2"><pre style="width: 100%; margin: 0px;"><code class="hljs java">@Inject @Stream("kafka")
+Publisher&lt;String> reactiveSay;
+
+@GET
+@Produces(MediaType.SERVER_SENT_EVENTS)
+public Publisher&lt;String> stream() {
+    return reactiveSay;
+}</code></pre></td>
+                            </tr>
+
+                        </table>
+                        <!-- Brings under one programming model non-blocking and imperative styles of development. -->
+                    </section>
+                    <!-- <section>
+                        <b>Unify imperative and reactive</b>
+                        <br>
+                        <br>
+                        <img alt="Unify imperative and reactive" src="images/unify-imperative-reactive.svg">
+                    </section> -->
+                    <section>
+                        Based on
+                        <h2>Existing standards</h2>
+                        <table class="plaintable" style="font-size: 34px; margin-top: 80px">
+                            <tr>
+                                <td rowspan="2" style="padding-right: 50px">
+                                    <ul class="check">
+                                        <li>Servlet</li>
+                                        <li>JAX-RS</li>
+                                        <li>JPA, JDBC</li>
+                                        <li>CDI</li>
+                                        <li>Bean&nbsp;Validation</li>
+                                        <li>Transactions</li>
+                                        <li>Logging</li>
+                                    </ul>
+                                </td>
+                                <td colspan="2">
+                                    <img alt="MicroProfile" src="images/microprofile-logo.png" style="width: 400px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-right: 20px">
+                                    <ul class="check">
+                                        <li>Fault&nbsp;Tolerance</li>
+                                        <li>Health</li>
+                                        <li>JWT</li><!--  JSON Web Tokens(JWT) for role based access control(RBAC) of microservice endpoints -->
+                                        <li>Metrics</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="check">
+                                        <li>OpenAPI</li>
+                                        <li>OpenTracing</li>
+                                        <li>Reactive&nbsp;Messaging</li>
+                                        <li>Rest Client</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
+                    <section>
+                        <h2>Libs and frameworks</h2>
+                        you love and use today<br>
+                        <table id="libs-frameworks" class="plaintable" style="font-size: 16px; text-transform: uppercase;">
+                            <tr>
+                                <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
+                                    <a href="https://vertx.io/" target="_blank">
+                                        <img src="images/logoset_eclipse_vertx.png">
+                                        <span>Eclipse Vert.x</span>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
+                                    <a href="http://hibernate.org" target="_blank">
+                                        <img src="images/logoset_hibernate.png">
+                                        <span>Hibernate</span>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
+                                    <a href="https://resteasy.github.io"
+                                        target="_blank"> <img src="images/logoset_resteasy.png">
+                                        <span>Resteasy</span>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
+                                    <a href="https://camel.apache.org"
+                                        target="_blank"> <img src="images/logoset_apache_camel.png">
+                                        <span>Apache Camel</span>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
+                                    <a href="https://netty.io" target="_blank">
+                                        <img src="images/logoset_netty.png">
+                                        <span>Netty</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
+                                    <a href="https://kubernetes.io/" target="_blank">
+                                        <img src="images/logoset_kubernetes.png">
+                                        <span>Kubernetes</span>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
+                                    <a href="https://www.jaegertracing.io/"
+                                        target="_blank"> <img src="images/logoset_jaeger.png">
+                                        <span>Jaeger</span>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
+                                    <a href="https://prometheus.io/" target="_blank">
+                                        <img src="images/logoset_prometheus.png">
+                                        <span>Prometheus</span>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
+                                    <a href="http://kafka.apache.org/"
+                                        target="_blank"> <img src="images/logoset_apache_kafka.png">
+                                        <span>Apache Kafka</span>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: bottom; text-align: center; width: 120px; padding: 20px 20px 20px 20px">
+                                    <a href="https://infinispan.org" target="_blank">
+                                        <img src="images/logoset_infinispan.png">
+                                        <span>Infinispan</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
+                    <section>
+                        <h2>Developer joy</h2>
+                        Development centric experience, without compromise,
+                        to bring your amazing apps to life in no time
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>How does it work?</h2>
+                    </section>
+
+                </section>
+                <section>
+                    <section>
+                        <h2>Quarkus features</h2>
+                    </section>
+
+                </section>
+                <section>
+                    <section>
+                        <h2>Quarkus wrap up</h2>
+                        <ul>
+                            <li class="fragment"></li>
+                            <li class="fragment"></li>
+                            <li class="fragment"></li>
+                        </ul>
+                        Makes Java the choice #1 for the cloud and serverless
+                    </section>
+                    <section>
+                        <h2>Quarkus project info</h2>
+                        <ul>
+                            <li>Apache License v2</li>
+                            <li><a href="https://quarkus.io/">https://quarkus.io/</a></li>
+                            <li>Quickstarts: <a href="https://quarkus.io/">https://quarkus.io/</a></li>
+                            <li>Stack Overflow tag: <a href="https://stackoverflow.com/questions/tagged/quarkus">quarkus</a>
+                            <li>Chat: <a href="https://quarkusio.zulipchat.com/">https://quarkusio.zulipchat.com/</a></li>
+                            <li>Dev mailing list: <a href="https://groups.google.com/d/forum/quarkus-dev">https://groups.google.com/d/forum/quarkus-dev</a></li>
+                        </ul>
                     </section>
                 </section>
             </div>
@@ -77,9 +421,11 @@
                 if (Reveal.isFirstSlide()) {
                     //document.querySelector('.reveal .conf-banner').style.display = 'block';
                     document.querySelector('.reveal .footer').style.display = 'none';
+                    document.querySelector('div.reveal').style.backgroundColor = null;
                 } else {
                     //document.querySelector('.reveal .conf-banner').style.display = 'none';
                     document.querySelector('.reveal .footer').style.display = 'block';
+                    document.querySelector('div.reveal').style.backgroundColor = '#000a';
                 }
             }
             Reveal.addEventListener('slidechanged', adjustFooterAndConfBannerVisibility);
